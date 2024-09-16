@@ -128,6 +128,3 @@ Sub stock_market_data_analysis():
 
 End Sub
 
-
-
-
