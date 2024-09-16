@@ -11,7 +11,7 @@
 # Conditional formatting was also used to accentuate postive change in green and negative change in red. 
 Sub stock_market_data_analysis():
 
-    ' Set dimensions
+    ' Setting the dimensions
     Dim total As Double
     Dim i As Long
     Dim change As Double
@@ -23,7 +23,7 @@ Sub stock_market_data_analysis():
     Dim dailyChange As Double
     Dim averageChange As Double
 
-    ' Set title row
+    ' Setting appropriate row titles
     Range("I1").Value = "Ticker"
     Range("J1").Value = "Quarterly Change"
     Range("K1").Value = "Percent Change"
@@ -34,7 +34,7 @@ Sub stock_market_data_analysis():
     Range("O3").Value = "Greatest % Decrease"
     Range("O4").Value = "Greatest Total Volume"
 
-    ' Set initial values
+    ' Setting initial values and variables
     j = 0
     total = 0
     change = 0
@@ -48,10 +48,10 @@ Sub stock_market_data_analysis():
         ' If ticker changes then print results
         If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
 
-            ' Stores results in variables
+            ' Store results in respective variables
             total = total + Cells(i, 7).Value
 
-            ' Handle zero total volume
+            ' Take care of zero total volume
             If total = 0 Then
                 ' print the results
                 Range("I" & 2 + j).Value = Cells(i, 1).Value
@@ -70,14 +70,14 @@ Sub stock_market_data_analysis():
                      Next find_value
                 End If
 
-                ' Calculate Change
+                ' Calculate the percent Change
                 change = (Cells(i, 6) - Cells(start, 3))
                 percentChange = change / Cells(start, 3)
 
                 ' start of the next stock ticker
                 start = i + 1
 
-                ' print the results
+                ' print the data results found
                 Range("I" & 2 + j).Value = Cells(i, 1).Value
                 Range("J" & 2 + j).Value = change
                 Range("J" & 2 + j).NumberFormat = "0.00"
@@ -85,7 +85,7 @@ Sub stock_market_data_analysis():
                 Range("K" & 2 + j).NumberFormat = "0.00%"
                 Range("L" & 2 + j).Value = total
 
-                ' colors positives green and negatives red
+                ' conditional formatting -color green is positive and red is negative
                 Select Case change
                     Case Is > 0
                         Range("J" & 2 + j).Interior.ColorIndex = 4
@@ -103,7 +103,7 @@ Sub stock_market_data_analysis():
             j = j + 1
             days = 0
 
-        ' If ticker is still the same add results
+        ' If ticker remains the same add results
         Else
             total = total + Cells(i, 7).Value
 
@@ -116,12 +116,12 @@ Sub stock_market_data_analysis():
     Range("Q3") = "%" & WorksheetFunction.Min(Range("K2:K" & rowCount)) * 100
     Range("Q4") = WorksheetFunction.Max(Range("L2:L" & rowCount))
 
-    ' returns one less because header row not a factor
+    ' return one less because header row is not a factor
     increase_number = WorksheetFunction.Match(WorksheetFunction.Max(Range("K2:K" & rowCount)), Range("K2:K" & rowCount), 0)
     decrease_number = WorksheetFunction.Match(WorksheetFunction.Min(Range("K2:K" & rowCount)), Range("K2:K" & rowCount), 0)
     volume_number = WorksheetFunction.Match(WorksheetFunction.Max(Range("L2:L" & rowCount)), Range("L2:L" & rowCount), 0)
 
-    ' final ticker symbol for  total, greatest % of increase and decrease, and average
+    ' final ticker symbol for greatest % of increase and decrease, total, and average
     Range("P2") = Cells(increase_number + 1, 9)
     Range("P3") = Cells(decrease_number + 1, 9)
     Range("P4") = Cells(volume_number + 1, 9)
